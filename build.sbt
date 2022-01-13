@@ -9,12 +9,17 @@ lazy val root = (project in file("."))
 
 libraryDependencies ++= Seq(
   "com.bot4s" %% "telegram-core" % "5.3.0",
-  "org.typelevel" %% "cats-effect" % "2.5.3",
-  "org.typelevel" %% "cats-core" % "2.3.0",
-  "com.softwaremill.sttp.client3" %% "core" % "3.3.18",
-  "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats-ce2" % "3.3.18",
-  "is.cir" %% "ciris" % "2.3.1",
+  "org.typelevel" %% "cats-core" % "2.7.0",
+  "org.typelevel" %% "cats-effect" % "3.3.4",
+  "com.softwaremill.sttp.client3" %% "core" % "3.3.17",
+  "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % "3.3.17",
+  "is.cir" %% "ciris" % "2.3.2",
+  "is.cir" %% "ciris-enumeratum" % "2.3.2",
+  "is.cir" %% "ciris-refined" % "2.3.2",
   "io.estatico" %% "newtype" % "0.4.4",
   "eu.timepit" %% "refined" % "0.9.28",
-  "com.beachape" %% "enumeratum" % "1.7.0"
+  "eu.timepit" %% "refined-cats" % "0.9.28",
+  "com.beachape" %% "enumeratum" % "1.7.0",
 )
+
+scalacOptions += "-Ymacro-annotations"

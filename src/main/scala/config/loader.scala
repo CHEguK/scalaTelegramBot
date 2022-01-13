@@ -1,35 +1,32 @@
 package config
 
-import cats.effect._
-import cats.syntax.all._
-import ciris.ConfigValue
-import config.data.AppConfig
+import cats.effect.Async
+import cats.implicits._
+import ciris._
+import ciris.refined._
+import config.data.{AppConfig, TelegramToken}
 import config.environments.AppEnvironment
 import config.environments.AppEnvironment.{Prod, Test}
+import eu.timepit.refined.cats._
 import eu.timepit.refined.types.string.NonEmptyString
 
-import scala.sys.env
 
 object loader {
 
-  def apply[F[_]: Async: ContextShift]: F[AppConfig] =
+  def apply[F[_]: Async]: F[AppConfig] = {
     env("SC_APP_ENV")
       .as[AppEnvironment]
       .flatMap {
         case Test =>
-          default()
+          default[F]
         case Prod =>
-          default()
+          default[F]
       }
-      .load[F]
+    default[F].load[F]
+  }
 
-  private def default(): ConfigValue[AppConfig] =
-    (
-      env("TELEGRAM_TOKEN").as[NonEmptyString].secret
-    ).parMapN { (token) =>
-      AppConfig(
-        token
-      )
+  private def default[F[_]]: ConfigValue[F, AppConfig] = {
+    env("TELEGRAM_TOKEN").as[NonEmptyString].secret.map(a => AppConfig(TelegramToken(a)))
+  }
 
-    }
 }
