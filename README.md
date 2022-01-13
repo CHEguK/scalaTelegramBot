@@ -1,1 +1,1 @@
-# scalaTelegramBot
+# ScalaTelegramBot
