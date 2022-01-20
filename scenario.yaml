@@ -1,0 +1,65 @@
+commands:
+  - rest:
+      id: 'rest'
+      text: '/reset'
+      to: '_init_'
+  - comeback:
+      id: 'comeback'
+      text: 'Назад'
+      to: ''
+  - skip:
+      id: 'skip'
+      text: 'Пропустить'
+      to: ''
+
+script:
+  - _init_:
+      id: '_init_'
+      name: 'Приветствие'
+      message:
+        - text: 'Привет, хочешь загрузить фото?'
+      answer:
+        - text: 'Да'
+          next: 'upload_photo'
+        - text: 'Нет'
+          next: 'goodbye'
+      default_next: '_init_'
+
+  - upload_photo:
+      id: 'upload_photo'
+      name: 'Загрузка фото'
+      message:
+        - text: 'Загрузи фото'
+      answer:
+        - text: 'comeback'
+          next: '_init_'
+      default_next: 'upload_more'
+
+  - uploaded:
+      id: 'uploaded'
+      name: 'Загрузить ещё?'
+      message:
+        - text: 'Ещё будем загружать?'
+      answer:
+        - text: 'Да'
+          next: 'upload_photo'
+        - text: 'Нет'
+          next: 'goodbye'
+      default_next: 'goodbye'
+
+  - goodbye:
+      id: 'goodbye'
+      name: 'Прощание'
+      message:
+        - text: "Ну пока"
+      default_next: '_init_'
+
+
+
+
+
+
+
+
+
+
