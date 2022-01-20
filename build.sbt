@@ -20,7 +20,8 @@ libraryDependencies ++= Seq(
   "eu.timepit" %% "refined" % "0.9.28",
   "eu.timepit" %% "refined-cats" % "0.9.28",
   "com.beachape" %% "enumeratum" % "1.7.0",
-  "io.circe" %% "circe-yaml" % "0.14.1"
+  "io.circe" %% "circe-yaml" % "0.14.1",
+  "org.typelevel" %% "log4cats-slf4j" % "2.2.0",
 )
 
 scalacOptions += "-Ymacro-annotations"
