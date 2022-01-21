@@ -10,7 +10,8 @@ object data {
 
   case class AppConfig(
     token: TelegramToken,
-    postgreSQL: PostgreSQLConfig
+    postgreSQL: PostgreSQLConfig,
+    redis: RedisConfig
   )
 
   case class PostgreSQLConfig(
@@ -19,4 +20,7 @@ object data {
     user: NonEmptyString,
     password: Secret[NonEmptyString]
   )
+
+  @newtype case class RedisURI(value: NonEmptyString)
+  @newtype case class RedisConfig(uri: RedisURI)
 }

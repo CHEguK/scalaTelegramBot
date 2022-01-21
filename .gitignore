@@ -6,3 +6,4 @@ target
 *~
 .#*
 .bsp
+exports.conf

@@ -4,9 +4,10 @@ import cats.effect.Async
 import cats.implicits._
 import ciris._
 import ciris.refined._
-import config.data.{AppConfig, PostgreSQLConfig, TelegramToken}
+import config.data.{AppConfig, PostgreSQLConfig, RedisConfig, RedisURI, TelegramToken}
 import config.environments.AppEnvironment
 import config.environments.AppEnvironment.{Prod, Test}
+import eu.timepit.refined.auto._
 import eu.timepit.refined.cats._
 import eu.timepit.refined.types.string.NonEmptyString
 
@@ -18,14 +19,19 @@ object loader {
       .as[AppEnvironment]
       .flatMap {
         case Test =>
-          default[F]
+          default[F](
+            RedisURI("redis://localhost"),
+          )
         case Prod =>
-          default[F]
-      }
-    default[F].load[F]
+          default[F](
+            RedisURI("redis://localhost"),
+          )
+      }.load[F]
   }
 
-  private def default[F[_]]: ConfigValue[F, AppConfig] = {
+  private def default[F[_]](
+    redisUri: RedisURI,
+  ): ConfigValue[F, AppConfig] = {
     (
       env("TELEGRAM_TOKEN").as[NonEmptyString].secret,
       env("POSTGRES_HOST").as[NonEmptyString],
@@ -40,7 +46,8 @@ object loader {
           pg_url,
           pg_user,
           pg_password
-        )
+        ),
+        RedisConfig(redisUri),
       )
     }
   }

@@ -6,6 +6,8 @@ import org.typelevel.log4cats.slf4j.Slf4jLogger
 import domain.Scenario
 import io.circe.yaml.parser
 import resources.AppResources
+import dev.profunktor.redis4cats.log4cats._
+import eu.timepit.refined.auto._
 
 import scala.io.BufferedSource
 
@@ -22,12 +24,11 @@ object Main extends IOApp {
       AppResources
         .make[IO](cfg)
         .evalMap { res =>
-          IO(println(res.postgres))
           IO(ExitCode.Success)
 /*          Resource.fromAutoCloseable(sourceIO).use { source =>
             for {
               scenario <- parser.parse(source.mkString).flatMap(_.as[Scenario])
-              _ <- new Bot[IO](cfg.token.value.value.value).startPolling()
+              _ <- new Bot[IO](cfg.token.value.value).startPolling()
             } yield ExitCode.Success
           }*/
         }.useForever
