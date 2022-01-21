@@ -2,6 +2,7 @@ package domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.generic.auto._
 
 case class Command(id: String, text: String, to: String)
 

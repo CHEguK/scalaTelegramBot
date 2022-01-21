@@ -22,6 +22,9 @@ libraryDependencies ++= Seq(
   "com.beachape" %% "enumeratum" % "1.7.0",
   "io.circe" %% "circe-yaml" % "0.14.1",
   "org.typelevel" %% "log4cats-slf4j" % "2.2.0",
+  "org.tpolecat" %% "doobie-core" % "1.0.0-RC1",
+  "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1",
+  "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC1"
 )
 
 scalacOptions += "-Ymacro-annotations"
