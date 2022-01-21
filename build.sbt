@@ -24,7 +24,9 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "log4cats-slf4j" % "2.2.0",
   "org.tpolecat" %% "doobie-core" % "1.0.0-RC1",
   "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1",
-  "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC1"
+  "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC1",
+  "dev.profunktor" %% "redis4cats-effects" % "1.0.0",
+  "dev.profunktor" %% "redis4cats-log4cats" % "1.0.0"
 )
 
 scalacOptions += "-Ymacro-annotations"
