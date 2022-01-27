@@ -26,7 +26,9 @@ libraryDependencies ++= Seq(
   "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1",
   "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC1",
   "dev.profunktor" %% "redis4cats-effects" % "1.0.0",
-  "dev.profunktor" %% "redis4cats-log4cats" % "1.0.0"
+  "dev.profunktor" %% "redis4cats-log4cats" % "1.0.0",
+  "dev.optics" %% "monocle-core"  % "3.1.0",
+  "dev.optics" %% "monocle-macro" % "3.1.0"
 )
 
 scalacOptions += "-Ymacro-annotations"
