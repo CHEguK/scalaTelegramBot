@@ -1,6 +1,6 @@
 import cats.effect._
 import config.data.AppConfig
-import modules.Bot
+import modules.{Bot, Services}
 import org.typelevel.log4cats.{Logger, SelfAwareStructuredLogger}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import domain.Scenario
@@ -24,7 +24,8 @@ object Main extends IOApp {
       AppResources
         .make[IO](cfg)
         .evalMap { res =>
-          IO(ExitCode.Success)
+          val services = Services.make[IO](res.redis, res.postgres)
+          new Bot[IO](cfg.token.value.value).startPolling().as(IO(ExitCode.Success))
 /*          Resource.fromAutoCloseable(sourceIO).use { source =>
             for {
               scenario <- parser.parse(source.mkString).flatMap(_.as[Scenario])

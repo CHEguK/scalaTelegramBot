@@ -23,8 +23,7 @@ object HealthCheck {
   ): HealthCheck[F] =
     new HealthCheck[F] {
 
-      val q: doobie.ConnectionIO[List[Int]] = sql"SELECT pid FROM pg_stat_activity;".query[List[Int]].unique
-
+      val q: doobie.ConnectionIO[List[Int]] = sql"SELECT pid FROM pg_stat_activity;".query[Int].to[List]
 
       val postgresHealth: F[PostgresStatus] =
         q.transact(postgres)
