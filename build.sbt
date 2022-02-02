@@ -10,7 +10,7 @@ lazy val root = (project in file("."))
 libraryDependencies ++= Seq(
   "com.bot4s" %% "telegram-core" % "5.3.0",
   "org.typelevel" %% "cats-core" % "2.7.0",
-  "org.typelevel" %% "cats-effect" % "3.3.4",
+  "org.typelevel" %% "cats-effect" % "3.3.5",
   "com.softwaremill.sttp.client3" %% "core" % "3.3.17",
   "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % "3.3.17",
   "is.cir" %% "ciris" % "2.3.2",
