@@ -25,11 +25,11 @@ class Bot[F[_]: Async: Concurrent](token: String, services: Services[F], scenari
       scenario <- scenarioIO
       script = scenario.script
       text = msg.text
-      lastPoint = redis.lastPoint
+/*      lastPoint = redis
       nextPointId = lastStep.nextPoint(text)
       nextPoint = script.steps(nextPoint)
       nextPoint.message
-      _ = redis.saveLastPoint(nextPoint)
+      _ = redis.saveLastPoint(nextPoint)*/
 
     } yield ()
 
