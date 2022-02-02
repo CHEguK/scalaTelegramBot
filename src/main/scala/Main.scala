@@ -1,6 +1,6 @@
 import cats.effect._
 import config.data.AppConfig
-import modules.Bot
+import modules.{Bot, Services}
 import org.typelevel.log4cats.{Logger, SelfAwareStructuredLogger}
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import domain.Scenario
@@ -21,17 +21,15 @@ object Main extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = {
     config.loader[IO].flatMap { cfg =>
       Logger[IO].info(s"Loaded config $cfg")
-      AppResources
-        .make[IO](cfg)
-        .evalMap { res =>
-          IO(ExitCode.Success)
-/*          Resource.fromAutoCloseable(sourceIO).use { source =>
-            for {
-              scenario <- parser.parse(source.mkString).flatMap(_.as[Scenario])
-              _ <- new Bot[IO](cfg.token.value.value).startPolling()
-            } yield ExitCode.Success
-          }*/
-        }.useForever
+      Resource.fromAutoCloseable(sourceIO).use { source =>
+        AppResources
+          .make[IO](cfg)
+          .evalMap { res =>
+            val scenario = Sync[IO].fromEither(parser.parse(source.mkString).flatMap(_.as[Scenario]))
+            val services = Services.make[IO](res.redis, res.postgres, cfg.sessionExpiration)
+            new Bot[IO](cfg.token.value.value, services, scenario).startPolling()
+          }.useForever
+      }
     }
   }
 }

@@ -1,10 +1,12 @@
 package config
 
+import scala.concurrent.duration._
+
 import cats.effect.Async
 import cats.implicits._
 import ciris._
 import ciris.refined._
-import config.data.{AppConfig, PostgreSQLConfig, RedisConfig, RedisURI, TelegramToken}
+import config.data.{AppConfig, PostgreSQLConfig, RedisConfig, RedisURI, SessionExpiration, TelegramToken}
 import config.environments.AppEnvironment
 import config.environments.AppEnvironment.{Prod, Test}
 import eu.timepit.refined.auto._
@@ -48,6 +50,7 @@ object loader {
           pg_password
         ),
         RedisConfig(redisUri),
+        SessionExpiration(24.hours)
       )
     }
   }

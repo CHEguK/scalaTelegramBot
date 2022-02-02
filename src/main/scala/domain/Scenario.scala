@@ -25,12 +25,13 @@ object Commands {
 case class PossibleMessage(text: String)
 case class Answer(text: String, next: String)
 case class Point(id: String, name: String, message: List[PossibleMessage], answer: Option[List[Answer]])
-case class Script(
-  init: Point,
-  upload_photo: Point,
-  uploaded: Point,
-  goodbye: Point
-)
+
+case class Script(init: Point, upload_photo: Point, uploaded: Point, goodbye: Point) {
+  val steps: Map[String, Point] = productElementNames
+                                    .zip(productIterator)
+                                    .collect{case name -> (p: Point) => name -> p}
+                                    .toMap
+}
 
 case class Scenario(commands: Commands, script: Script)
 

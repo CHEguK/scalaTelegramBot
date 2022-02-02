@@ -7,3 +7,5 @@ target
 .#*
 .bsp
 exports.conf
+test.yaml
+untitled.sc

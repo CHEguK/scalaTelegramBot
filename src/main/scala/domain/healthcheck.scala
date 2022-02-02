@@ -23,7 +23,6 @@ object healthcheck {
   @newtype
   case class PostgresStatus(value: Status)
 
-  @newtype
   case class AppStatus(
     redis: RedisStatus,
     postgres: PostgresStatus
