@@ -9,7 +9,14 @@ import dev.profunktor.redis4cats.RedisCommands
 import domain.Point
 import domain.session.{LastPointId, Session, UserId}
 
-trait TemporalData[F[_]]
+trait TemporalData[F[_]] {
+  def init(user: User): F[Unit]
+  def checkInitSession(user: User): F[Boolean]
+  def savePoint(user: User, step: Point): F[Unit]
+  def getLastPoint(user: User): F[Session]
+  def exist(user: User): F[Boolean]
+}
+
 
 object TemporalData {
   def make[F[_]: MonadThrow](
@@ -28,5 +35,12 @@ object TemporalData {
         redis.hGet(user.id.toString, "lastStep")
           .map(a => Session(UserId(user.id.show.toLong), LastPointId(a.getOrElse(""))))
       }
+
+      def init(user: User): F[Unit] =
+        redis.hSet(user.id.show, "lastStep", "init") *>
+          redis.expire(user.id.show, exp.value).void
+
+      def exist(user: User): F[Boolean] =
+        redis.exists(user.id.show)
     }
 }

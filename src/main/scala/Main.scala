@@ -25,9 +25,9 @@ object Main extends IOApp {
         AppResources
           .make[IO](cfg)
           .evalMap { res =>
-            val scenario = Sync[IO].fromEither(parser.parse(source.mkString).flatMap(_.as[Scenario]))
-            val services = Services.make[IO](res.redis, res.postgres, cfg.sessionExpiration)
-            new Bot[IO](cfg.token.value.value, services, scenario).startPolling()
+            val scenario = Async[IO].fromEither(parser.parse(source.mkString).flatMap(_.as[Scenario]))
+            val services = Services.make[IO](res.redis, res.postgres, cfg.sessionExpiration, scenario)
+            new Bot[IO](cfg.token.value.value, services).startPolling()
           }.useForever
       }
     }
